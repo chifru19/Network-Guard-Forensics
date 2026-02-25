@@ -23,3 +23,11 @@ A Python-based network analysis tool that processes PCAP files to visualize traf
 * Automated the ingestion of large-scale capture files.
 * Implemented signature-based detection for PII (Personally Identifiable Information).
 * Optimized data processing for 15k+ packets into actionable visual insights.
+## 🚀 How to Run the Security Audit
+This tool is designed to be run as a secure, isolated container.
+
+1. **Build the hardened image:**
+   `docker build -t cloud-audit-tool .`
+
+2. **Run the automated scan:**
+   `docker run --rm cloud-audit-tool`
