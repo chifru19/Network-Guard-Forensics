@@ -1,6 +1,10 @@
 name: Cloud Security Suite CI
 on: [push]
 
+# FIX: Restrict permissions to read-only for security
+permissions:
+  contents: read
+
 jobs:
   secure-build:
     runs-on: ubuntu-latest
