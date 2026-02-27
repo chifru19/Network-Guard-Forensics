@@ -1,19 +1,17 @@
-# Use a slim, secure base image
-FROM python:3.9-slim
+# Use a lightweight Python image
+FROM python:3.11-slim
 
-# Set a working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the audit script into the container
-COPY security_audit.py .
+# Install system dependencies for Postgres
+RUN apt-get update && apt-get install -y libpq-dev gcc
 
-# Create a non-root user for security (Least Privilege)
-RUN useradd -m auditor && chown -R auditor /app
-USER auditor
+# Install Python dependencies
+RUN pip install boto3 psycopg2-binary
 
-# FIX: Add HEALTHCHECK to satisfy security policy CKV_DOCKER_2
-HEALTHCHECK --interval=30s --timeout=3s \
-  CMD python -c 'import os; exit(0 if os.path.exists("security_audit.py") else 1)'
+# Copy your audit script into the container
+COPY analyze.py .
 
-# Command to run the tool
-CMD ["python", "security_audit.py"]
+# Run the script when the container starts
+CMD ["python", "analyze.py"]

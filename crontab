@@ -1,0 +1,3 @@
+# Run the auditor every 10 minutes and log output to the container logs
+*/10 * * * * /usr/local/bin/python /app/analyze.py >> /var/log/cron.log 2>&1
+# Mandatory empty line at the end of the file

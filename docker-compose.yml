@@ -1,0 +1,42 @@
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack-main
+    ports: ["4566:4566"]
+    networks: [cloud-sec-net]
+
+  database:
+    image: postgres:latest
+    container_name: my-new-postgres
+    environment: [POSTGRES_PASSWORD=securepassword123]
+    networks: [cloud-sec-net]
+
+  security-auditor:
+    build: .
+    container_name: s3-security-auditor
+    depends_on: [localstack, database]
+    networks: [cloud-sec-net]
+
+  # NEW: Visual Dashboard Service
+  dashboard:
+    image: python:3.11-slim
+    container_name: security-dashboard
+    volumes: ["./dashboard.py:/app/dashboard.py"]
+    working_dir: /app
+    ports: ["8501:8501"]
+    command: >
+      sh -c "pip install streamlit pandas psycopg2-binary && 
+             streamlit run dashboard.py --server.port=8501 --server.address=0.0.0.0"
+    depends_on: [database]
+    networks: [cloud-sec-net]
+
+  secret-scanner:
+    image: trufflesecurity/trufflehog:latest
+    container_name: secret-detector
+    volumes: [".:/pwd"]
+    command: filesystem /pwd --exclude-paths=/pwd/exclude.txt --fail
+    networks: [cloud-sec-net]
+
+networks:
+  cloud-sec-net:
+    driver: bridge
