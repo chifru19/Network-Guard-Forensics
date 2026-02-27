@@ -1,4 +1,4 @@
-# 🛡️ Cloud-Security-Suite: Forensics, DevSecOps & CDR
+# Cloud-Security-Suite: Forensics, DevSecOps & CDR
 
 A professional-grade security repository demonstrating a complete pivot from **Network Forensics** to **Cloud Security Engineering**. This suite features real-time threat detection, automated self-healing cloud remediation, and hardened CI/CD pipelines.
 
@@ -14,39 +14,37 @@ A professional-grade security repository demonstrating a complete pivot from **N
 
 ---
 
-## ☁️ Project 2: Real-Time Cloud Audit & Auto-Remediation
-**Focus:** Active Compliance & Automated Self-Healing
+## ☁️ Project 2: Real-Time Cloud Audit & Compliance
+**Focus:** Active Compliance & Policy Enforcement
 
-* **Self-Healing Infrastructure:** Developed `security_audit.py` using **Boto3** to identify and automatically remediate non-compliant S3 buckets.
+* **Audit Engine:** Developed `security_audit.py` using **Boto3** to identify and automatically remediate non-compliant S3 buckets in real-time.
 * **Zero-Cost Simulation:** Leveraged **LocalStack** to build and test cloud security tools in an isolated, mock AWS environment.
-* **Live Status:**
-✅ `Starting Real-Time Audit... No buckets found. Environment is clean.`
+* **Live Status:** ✅ `Starting Real-Time Audit... No buckets found. Environment is clean.`
 
 ---
 
-## 🚨 Project 3: Cloud Detection & Response (CDR)
-**Focus:** Intrusion Detection & Behavioral Analysis
+## 🚨 Project 3: Cloud Intrusion Detection (IDS)
+**Focus:** Behavioral Analysis & Threat Identification
 
 * **Custom IDS Engine:** Developed `cloud_detection.py` to monitor real-time API traffic and identify "Brute Force" patterns.
-* **Rate-Limiting Alerts:** Triggers a **CRITICAL** alert if more than 5 requests are detected in under 3 seconds.
+* **Behavioral Analysis:** Triggers a **CRITICAL** alert if more than 5 requests are detected in under 3 seconds.
 * **Live Detection Output:**
-```text
-🚨 CRITICAL ALERT: Rapid API activity detected! Possible Brute Force Attack.
+🚨 `CRITICAL ALERT: Rapid API activity detected! Possible Brute Force Attack.`
+
 ---
 
-## 🛡️ Project 3: Automated Cloud Detection & Response (CDR)
-**Goal**: Transition from manual log auditing to an automated, "self-healing" security posture.
+## 🛡️ Project 4: Automated Cloud Detection & Response (CDR)
+**Focus:** Active Defense & Automated Self-Healing
 
-### 🚀 Key Technical Milestones
-* **Automated Remediation**: Developed a Python engine that monitors for "Rapid API Activity" and triggers an immediate bucket deletion (Nuke) upon detection.
-* **Infrastructure Resilience**: Successfully recovered a corrupted Terraform state by manually resolving state locks and using the `-lock=false` flag to restore the environment.
-* **Race Condition Mitigation**: Synchronized infrastructure deployment with security monitoring to ensure response scripts only execute on verified live resources.
+* **Nuke-on-Detection:** Enhanced the engine to execute an immediate `DeleteBucket` response upon verified intrusion, securing the environment in **1.61s**.
+* **Infrastructure Resilience:** Resolved complex **Terraform State Locks** by manually clearing lock files and utilizing the `-lock=false` flag to ensure infrastructure availability during security events.
+* **Race Condition Mitigation:** Synchronized infrastructure deployment with monitoring to ensure response scripts execute only on verified live resources.
 
-### 🛠️ Response Timeline
+### 🛠️ Response Timeline (Project 4)
 | Phase | Action | Result |
 | :--- | :--- | :--- |
 | **Detection** | Script identifies 6 unauthorized requests | Triggered in **1.61s** |
 | **Response** | `auto_remediate()` function executes | **Intrusion Response Initiated** |
 | **Recovery** | S3 Bucket is deleted from LocalStack | **Environment Secured** |
 
-
+---
