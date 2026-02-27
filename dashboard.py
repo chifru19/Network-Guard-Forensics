@@ -60,4 +60,4 @@ try:
         st.rerun()
 
 except Exception as e:
-    st.error(f"Waiting for database connection... {e}")
+        st.error(f"Waiting for database connection..")
