@@ -32,3 +32,21 @@ A professional-grade security repository demonstrating a complete pivot from **N
 * **Live Detection Output:**
 ```text
 🚨 CRITICAL ALERT: Rapid API activity detected! Possible Brute Force Attack.
+---
+
+## 🛡️ Project 3: Automated Cloud Detection & Response (CDR)
+**Goal**: Transition from manual log auditing to an automated, "self-healing" security posture.
+
+### 🚀 Key Technical Milestones
+* **Automated Remediation**: Developed a Python engine that monitors for "Rapid API Activity" and triggers an immediate bucket deletion (Nuke) upon detection.
+* **Infrastructure Resilience**: Successfully recovered a corrupted Terraform state by manually resolving state locks and using the `-lock=false` flag to restore the environment.
+* **Race Condition Mitigation**: Synchronized infrastructure deployment with security monitoring to ensure response scripts only execute on verified live resources.
+
+### 🛠️ Response Timeline
+| Phase | Action | Result |
+| :--- | :--- | :--- |
+| **Detection** | Script identifies 6 unauthorized requests | Triggered in **1.61s** |
+| **Response** | `auto_remediate()` function executes | **Intrusion Response Initiated** |
+| **Recovery** | S3 Bucket is deleted from LocalStack | **Environment Secured** |
+
+
