@@ -4,7 +4,7 @@ import psycopg2
 import boto3
 
 # Configuration for Database and LocalStack
-DB_CONFIG = "dbname=postgres user=postgres password=securepassword123 host=database port=5432"
+DB_CONFIG = "dbname=postgres user=postgres password=securepassword123 host=my-new-postgres port=5432"
 S3_ENDPOINT = "http://localstack:4566"
 
 st.set_page_config(page_title="Security Audit Command Center", layout="wide")

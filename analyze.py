@@ -3,8 +3,8 @@ import psycopg2
 from botocore.exceptions import ClientError
 
 # Configuration
-S3_ENDPOINT = "http://localhost:4566"
-DB_CONFIG = "dbname=postgres user=postgres password=securepassword123 host=localhost port=5432"
+S3_ENDPOINT = endpoint_url="http://localstack:4566"
+DB_CONFIG = "dbname=postgres user=postgres password=securepassword123 host=my-new-postgres port=5432"
 
 def log_to_db(bucket, status, details):
     conn = psycopg2.connect(DB_CONFIG)
