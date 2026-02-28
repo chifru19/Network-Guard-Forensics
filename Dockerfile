@@ -12,11 +12,20 @@ RUN pip install boto3 psycopg2-binary
 
 # Copy your audit script into the container
 COPY analyze.py .
-# Create a non-privileged user for security hardening
+
+# --- SECURITY HARDENING SECTION ---
+
+# 1. Create a non-privileged user (fixes CKV_DOCKER_3)
 RUN useradd -m appuser
-# Ensure the user has permissions to the app directory
+# 2. Ensure the user has permissions to the app directory
 RUN chown -R appuser /app
-# Switch from root to the limited user
+
+# 3. Add a healthcheck to monitor process integrity (fixes CKV_DOCKER_2)
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD ps aux | grep analyze.py || exit 1
+
+# 4. Switch from root to the limited user
 USER appuser
+
 # Run the script when the container starts
 CMD ["python", "analyze.py"]
