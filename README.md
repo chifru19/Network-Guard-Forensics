@@ -25,3 +25,11 @@ An automated security auditing and remediation system for **AWS S3** (simulated 
 * **Database**: PostgreSQL
 * **App**: Streamlit (Python)
 * **Security**: Boto3, TruffleHog (Secret Scanning)
+# 🛡️ Network-Guard-Forensics
+## 🚀 Security Hardening & CI/CD
+This project utilizes automated security auditing via **Checkov** to ensure a hardened, production-ready environment.
+
+### Key Implementation Details:
+* **Vulnerability Remediation**: Successfully resolved `CKV_DOCKER_3` by transitioning from `root` execution to a dedicated, non-privileged `appuser`. This follows the **Principle of Least Privilege**, significantly reducing the attack surface.
+* **System Resilience**: Implemented native Docker `HEALTHCHECK` instructions (`CKV_DOCKER_2`) to allow container orchestrators to automatically monitor and recover the analysis process.
+* **Infrastructure as Code (IaC) Auditing**: Integrated security scanning into the GitHub Actions pipeline to catch misconfigurations in Terraform and Docker assets before deployment.
