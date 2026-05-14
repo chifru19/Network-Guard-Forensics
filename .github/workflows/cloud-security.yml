@@ -1,14 +1,38 @@
 name: Cloud Security Suite CI
+
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
 
 jobs:
-  test-job:
+  security-audit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Simple Check
-        run: echo "GitHub Actions is finally awake!"
-      
+
+      # Scan the S3 Hardening Terraform project
+      - name: Terraform Security Scan (Checkov)
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: projects/01-S3-Hardening
+          framework: terraform
+          quiet: true
+          soft_fail: false # Set to true if you want the build to pass even with errors
+
+      # Scan the DevSecOps Docker project
+      - name: Dockerfile Security Scan
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: projects/03-DevSecOps-CI-CD
+          framework: dockerfile
+
+      - name: Build Secure Container
+        run: |
+          cd projects/03-DevSecOps-CI-CD
+          docker build -t security-tool:latest .
