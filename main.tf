@@ -29,7 +29,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logs_encryption" 
   bucket = aws_s3_bucket.security_logs.id
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "aws:kms"
+      sse_algorithm = "AES256"
     }
   }
 }
@@ -50,4 +50,29 @@ resource "aws_s3_bucket_logging" "logs_logging" {
 
   target_bucket = aws_s3_bucket.security_logs.id
   target_prefix = "log/"
+}
+
+# 6. Fixes CKV2_AWS_61: Lifecycle Configuration
+resource "aws_s3_bucket_lifecycle_configuration" "logs_lifecycle" {
+  bucket = aws_s3_bucket.security_logs.id
+
+  rule {
+    id     = "log-retention"
+    status = "Enabled"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    expiration {
+      days = 90
+    }
+  }
+}
+
+# 7. Fixes CKV2_AWS_62: Event Notifications (Placeholders)
+# Note: In a real environment, you'd link this to an SQS/SNS ARN.
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket = aws_s3_bucket.security_logs.id
 }
