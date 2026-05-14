@@ -10,29 +10,27 @@ permissions:
   contents: read
 
 jobs:
-  security-audit:
+  security-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Scan the S3 Hardening Terraform project
-      - name: Terraform Security Scan (Checkov)
+      - name: Terraform Security Scan
         uses: bridgecrewio/checkov-action@master
         with:
           directory: projects/01-S3-Hardening
           framework: terraform
           quiet: true
-          soft_fail: false # Set to true if you want the build to pass even with errors
+          soft_fail: false
 
-      # Scan the DevSecOps Docker project
-      - name: Dockerfile Security Scan
+      - name: Docker Security Scan
         uses: bridgecrewio/checkov-action@master
         with:
           directory: projects/03-DevSecOps-CI-CD
           framework: dockerfile
 
-      - name: Build Secure Container
+      - name: Verify Build
         run: |
           cd projects/03-DevSecOps-CI-CD
           docker build -t security-tool:latest .
