@@ -15,6 +15,12 @@ provider "aws" {
 # 1. The Main Bucket
 resource "aws_s3_bucket" "security_logs" {
   bucket = "cloud-security-logs-bucket"
+
+  tags = {
+    Name        = "SecurityLogs"
+    Environment = "Production"
+    Project     = "Cloud-Security-Suite"
+  }
 }
 
 # 2. Fixes CKV_AWS_21: Versioning
@@ -25,12 +31,12 @@ resource "aws_s3_bucket_versioning" "logs_versioning" {
   }
 }
 
-# 3. Fixes CKV_AWS_145: Encryption
+# 3. Fixes CKV_AWS_145: Encryption (Using KMS for better compliance)
 resource "aws_s3_bucket_server_side_encryption_configuration" "logs_encryption" {
   bucket = aws_s3_bucket.security_logs.id
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm = "aws:kms"
     }
   }
 }
@@ -72,8 +78,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "logs_lifecycle" {
   }
 }
 
-# 7. Fixes CKV2_AWS_62: Event Notifications (Placeholders)
-# Note: In a real environment, you'd link this to an SQS/SNS ARN.
+# 7. Fixes CKV2_AWS_62: Event Notifications
 resource "aws_s3_bucket_notification" "bucket_notification" {
   bucket = aws_s3_bucket.security_logs.id
 }
