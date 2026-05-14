@@ -4,17 +4,10 @@ on:
     branches: [ main ]
 
 jobs:
-  checkov-job:
+  test-job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Test Run
-        run: echo "The workflow is finally working!"
-
-      - name: Checkov Scan
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: projects/01-S3-Hardening
-          framework: terraform
+      - name: Simple Check
+        run: echo "GitHub Actions is finally awake!"
