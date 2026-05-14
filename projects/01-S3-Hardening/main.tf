@@ -1,3 +1,4 @@
+# S3 Hardening Project for Portfolio
 provider "aws" {
   region                      = "us-east-1"
   access_key                  = "test"
