@@ -61,3 +61,4 @@ try:
 
 except Exception as e:
     st.error(f"Waiting for database connection...")
+    
