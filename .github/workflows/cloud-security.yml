@@ -1,20 +1,22 @@
 name: Cloud Security Suite CI
-on: [push]
 
-# FIX: Restrict permissions to read-only for security
-permissions:
-  contents: read
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   secure-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Terraform Security Scan
+      - name: Run Checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: .
-
-      - name: Build Secure Container
-        run: docker build -t security-tool .
+          # IMPORTANT: Point this to your new project folder
+          directory: projects/01-S3-Hardening
+          framework: terraform
+          quiet: true # Only show errors
