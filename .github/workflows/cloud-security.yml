@@ -1,22 +1,26 @@
 name: Cloud Security Suite CI
+on: [push]
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+permissions:
+  contents: read
 
 jobs:
   secure-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Run Checkov
+      - name: Terraform Security Scan
         uses: bridgecrewio/checkov-action@master
         with:
-          # IMPORTANT: Point this to your new project folder
+          # Changed from '.' to your new folder path
           directory: projects/01-S3-Hardening
           framework: terraform
-          quiet: true # Only show errors
+
+      - name: Docker Security Scan
+        uses: bridgecrewio/checkov-action@master
+        with:
+          # Changed to your new Docker folder
+          directory: projects/03-DevSecOps-CI-CD
+          framework: dockerfile
